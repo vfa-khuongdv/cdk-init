@@ -21,7 +21,7 @@ export class VpcService {
   /**
    * init new VPC
    */
-  init() {
+  private init() {
     // Create new VPC
     this.vpc = new ec2.Vpc(this.scope, 'Vpc', {
       vpcName: `${ENV.prefix}-vpc`,
