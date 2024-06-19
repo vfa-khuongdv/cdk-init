@@ -11,13 +11,13 @@ cp .env.dev .env
 `
 ## 2. Change the environment to matching with your AWS deployment
 
-`
+```
 STAGE=dev
 PROJECT=cdk-init
 CDK_REGION=ap-northeast-1
 CDK_ACCOUNT_ID=123456789
 CIDR_BLOCK=10.128.0.0/16
-`
+```
 
 ## 3. Bootstrap your AWS account
 `
