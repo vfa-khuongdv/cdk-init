@@ -9,6 +9,7 @@ import * as cdk from 'aws-cdk-lib';
 import { Construct } from 'constructs';
 import { VpcService } from './services/vpc.service';
 import { ENV } from '../config/environment';
+import { ECSService } from './services/ecs.service';
 
 export class CdkInitStack extends cdk.Stack {
   constructor(scope: Construct, id: string, props?: cdk.StackProps) {
@@ -16,6 +17,8 @@ export class CdkInitStack extends cdk.Stack {
 
     // create vpc
     let vpc = new VpcService(this);
+    // create ecs
+    let ecs = new ECSService(this, vpc.vpc)
     // Apply tags for all resource
     cdk.Tags.of(this).add('ProjectID', ENV.prefix)
   }

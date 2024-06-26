@@ -15,3 +15,11 @@ import 'dotenv/config';
 export function getEnv(key: string) {
   return process.env[key] ?? '';
 }
+
+
+/**
+ * Check current environment is development
+ */
+export const isDev = getEnv('STAGE') === 'dev';
+export const isProd = getEnv('STAGE') === 'prod';
+export const isStg = getEnv('STAGE') === 'stg';
