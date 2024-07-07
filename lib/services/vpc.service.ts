@@ -26,7 +26,7 @@ export class VpcService {
     this.vpc = new ec2.Vpc(this.scope, 'Vpc', {
       vpcName: `${ENV.prefix}-vpc`,
       ipAddresses: ec2.IpAddresses.cidr(ENV.cidrBlock),
-      natGateways: 0,
+      natGateways: 1,
       maxAzs: 2,
       subnetConfiguration: [
         {
