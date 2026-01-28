@@ -48,7 +48,6 @@ Expert guidance for AWS CDK development: creating stacks, writing constructs, te
 For detailed workflows and examples, see:
 - [references/WORKFLOWS.md](references/WORKFLOWS.md) - Step-by-step workflows (TDD, debugging, etc.)
 - [references/PATTERNS.md](references/PATTERNS.md) - Advanced patterns (multi-stack, aspects, etc.)
-- [references/AWS_SERVICES.md](references/AWS_SERVICES.md) - Service-specific examples
 - [references/COMMANDS.md](references/COMMANDS.md) - Complete CLI reference
 
 Scripts:
