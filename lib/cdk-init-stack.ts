@@ -7,6 +7,8 @@
 import * as cdk from 'aws-cdk-lib';
 import { Construct } from 'constructs';
 import { VpcConstruct } from './constructs/vpc.construct';
+import { RdsConstruct } from './constructs/rds.construct';
+import { Ec2Construct } from './constructs/ec2.construct';
 import { envConfig } from '../config/environment.config';
 import { IEnvironmentConfig } from './types';
 
@@ -22,6 +24,8 @@ export interface CdkInitStackProps extends cdk.StackProps {
  */
 export class CdkInitStack extends cdk.Stack {
   public readonly vpc: VpcConstruct;
+  public readonly rds: RdsConstruct;
+  public readonly ec2: Ec2Construct;
 
   constructor(scope: Construct, id: string, props: CdkInitStackProps) {
     super(scope, id, {
@@ -45,6 +49,24 @@ export class CdkInitStack extends cdk.Stack {
       'VpcConstruct',
       props.env,
       envConfig.getVpcConfig()
+    );
+
+    // Create RDS PostgreSQL
+    this.rds = new RdsConstruct(
+      this,
+      'RdsConstruct',
+      props.env,
+      this.vpc.vpc,
+      envConfig.getRdsConfig()
+    );
+
+    // Create EC2 Instance
+    this.ec2 = new Ec2Construct(
+      this,
+      'Ec2Construct',
+      props.env,
+      this.vpc.vpc,
+      envConfig.getEc2Config()
     );
 
     // Apply global tags

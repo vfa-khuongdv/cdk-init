@@ -91,6 +91,29 @@ export class EnvironmentConfig {
   }
 
   /**
+   * Get RDS configuration
+   */
+  public getRdsConfig() {
+    return {
+      instanceType: process.env.RDS_INSTANCE_TYPE || 't3.micro',
+      multiAz: process.env.RDS_MULTI_AZ === 'true',
+      allocatedStorage: parseInt(process.env.RDS_STORAGE || '20'),
+      dbName: process.env.RDS_DB_NAME || 'cdkapp',
+      username: process.env.RDS_USERNAME || 'postgres',
+    };
+  }
+
+  /**
+   * Get EC2 configuration
+   */
+  public getEc2Config() {
+    return {
+      instanceType: process.env.EC2_INSTANCE_TYPE || 't3.micro',
+      keyName: process.env.EC2_KEY_NAME,
+    };
+  }
+
+  /**
    * Get raw configuration value
    */
   public get<K extends keyof z.infer<typeof envSchema>>(key: K): z.infer<typeof envSchema>[K] {

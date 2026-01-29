@@ -11,6 +11,8 @@ import { IEnvironmentConfig } from '../lib/types';
 describe('CdkInitStack', () => {
   let app: App;
   let env: IEnvironmentConfig;
+  let consoleErrorSpy: jest.SpyInstance;
+  let consoleWarnSpy: jest.SpyInstance;
 
   beforeEach(() => {
     app = new App();
@@ -28,6 +30,15 @@ describe('CdkInitStack', () => {
     process.env.CDK_REGION = 'us-east-1';
     process.env.CDK_ACCOUNT_ID = '123456789012';
     process.env.CIDR_BLOCK = '10.0.0.0/16';
+
+    consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
+    consoleWarnSpy = jest.spyOn(console, 'warn').mockImplementation(() => {});
+
+  });
+
+  afterAll(() => {
+    consoleErrorSpy.mockRestore();
+    consoleWarnSpy.mockRestore();
   });
 
   describe('Stack Creation', () => {
@@ -59,6 +70,32 @@ describe('CdkInitStack', () => {
 
       expect(stack.vpc).toBeDefined();
       expect(stack.vpc.getVpc()).toBeDefined();
+    });
+  });
+
+  describe('RDS Integration', () => {
+    it('should create RDS construct', () => {
+        const stack = new CdkInitStack(app, `${env.prefix}-stack`, { env });
+        
+        const template = Template.fromStack(stack);
+        template.hasResourceProperties('AWS::RDS::DBInstance', {
+            Engine: 'postgres',
+        });
+        
+        expect(stack.rds).toBeDefined();
+    });
+  });
+
+  describe('EC2 Integration', () => {
+    it('should create EC2 construct', () => {
+        const stack = new CdkInitStack(app, `${env.prefix}-stack`, { env });
+        
+        const template = Template.fromStack(stack);
+        template.hasResourceProperties('AWS::EC2::Instance', {
+            InstanceType: 't3.micro', 
+        });
+
+        expect(stack.ec2).toBeDefined();
     });
   });
 

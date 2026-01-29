@@ -32,6 +32,25 @@ export interface IVpcConfig {
 }
 
 /**
+ * RDS configuration options
+ */
+export interface IRdsConfig {
+  instanceType: string;
+  multiAz: boolean;
+  allocatedStorage: number;
+  dbName?: string;
+  username?: string;
+}
+
+/**
+ * EC2 configuration options
+ */
+export interface IEc2Config {
+  instanceType: string;
+  keyName?: string;
+}
+
+/**
  * Subnet configuration
  */
 export interface ISubnetConfig {
